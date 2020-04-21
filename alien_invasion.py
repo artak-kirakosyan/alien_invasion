@@ -7,6 +7,8 @@ import game_functions as gf
 ######################################
 # Continue from page 289 in document #
 ######################################
+
+
 def run_game():
     # Initialize game and create a screen object.
     pygame.init()

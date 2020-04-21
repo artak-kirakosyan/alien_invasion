@@ -13,11 +13,14 @@ def check_key_down_events(event, ship):
 
 def check_key_up_events(event, ship):
     """Respond to key releases"""
+
     if event.key == pygame.K_RIGHT:
         # Move the ship to the right.
         ship.moving_right = False
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
+    elif event.key == pygame.K_ESCAPE:
+        sys.exit()
 
 
 def check_events(ship):
