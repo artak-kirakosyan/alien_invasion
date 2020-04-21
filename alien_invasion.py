@@ -33,4 +33,11 @@ def run_game():
         gf.update_screen(ai_settings, screen, ship, bullets, aliens)
 
 
-run_game()
+def main():
+    print("Running the game")
+    run_game()
+
+
+if __name__ == "__main__":
+    main()
+
