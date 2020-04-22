@@ -39,7 +39,7 @@ def create_fleet(ai_settings, screen, ship, aliens):
     """
     Create a full fleet of aliens.
     """
-    # Create one alien to check the size and the number
+    # Create one alien to check the size and the number.
     alien = Alien(ai_settings, screen)
     number_of_aliens_x = get_number_of_aliens_x(ai_settings, alien.rect.width)
     number_of_rows = get_number_of_rows(ai_settings, ship.rect.height, alien.rect.height)
@@ -104,11 +104,12 @@ def check_play_button(stats, play_button, mouse_x, mouse_y, ai_settings, screen,
 
 def start_game(stats, aliens, bullets, ai_settings, screen, ship):
     """
-    Start a new game
+    Start a new game.
     """
     if not stats.game_active:
 
         stats.game_active = True
+        pygame.mouse.set_visible(False)
         stats.reset_stats()
         # Empty the list of aliens and bullets.
         aliens.empty()
@@ -133,7 +134,9 @@ def update_bullets(bullets, aliens, ai_settings, screen, ship, ):
 
 
 def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
-    """Respond to bullet-alien collisions"""
+    """
+    Respond to bullet-alien collisions.
+    """
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 
     if len(aliens) == 0:
@@ -203,7 +206,7 @@ def update_aliens(ai_settings, aliens, ship, stats, screen, bullets):
     # Now check for alien ship collisions.
     if pygame.sprite.spritecollideany(ship, aliens):
         lose_a_life(ai_settings, stats, screen, ship, aliens, bullets)
-    # Check if aliens hit the bottom
+    # Check if aliens hit the bottom.
     check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
 
 
@@ -216,6 +219,7 @@ def lose_a_life(ai_settings, stats, screen, ship, aliens, bullets):
         stats.ships_left -= 1
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
 
     # Empty the list of aliens and bullets.
     aliens.empty()

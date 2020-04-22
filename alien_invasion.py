@@ -8,12 +8,9 @@ from game_stats import GameStats
 from button import Button
 
 
-###############################
-# continue from 301 from book #
-###############################
 def run_game():
     """
-    Main function to be executed
+    Main function to be executed.
     """
     # Initialize game and create a screen object.
     pygame.init()
