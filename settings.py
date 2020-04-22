@@ -1,3 +1,6 @@
+import random
+
+
 class Settings:
     """
     A class to store all settings for Alien Invasion.
@@ -13,7 +16,7 @@ class Settings:
         self.ship_limit = 2
 
         # Bullet settings.
-        self.bullet_width = 80
+        self.bullet_width = 800
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 30
@@ -23,6 +26,8 @@ class Settings:
 
         # Game settings.
         self.speedup_scale = 1.1
+
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
 
@@ -35,7 +40,9 @@ class Settings:
         self.alien_speed_factor = 1
 
         # fleet direction of 1 represents right, -1 represents left.
-        self.fleet_direction = 1
+        self.fleet_direction = random.choice((-1, 1))
+        # Reward of killing one alien.
+        self.alien_reward = 50
 
     def increase_speed(self):
         """
@@ -44,3 +51,4 @@ class Settings:
         self.ship_speed_factor *= self.speedup_scale
         self.bullet_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
+        self.alien_reward = int(self.alien_reward * self.score_scale)
