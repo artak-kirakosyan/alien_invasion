@@ -24,6 +24,7 @@ class Ship(Sprite):
         # Movement flag
         self.moving_right = False
         self.moving_left = False
+        self.fire = False
 
     def update(self):
         """
