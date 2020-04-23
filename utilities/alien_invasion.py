@@ -3,13 +3,13 @@ import pygame
 from time import sleep
 from pygame.sprite import Group
 
-from settings import Settings
-from ship import Ship
-from game_stats import GameStats
-from button import Button
-from scoreboard import Scoreboard
-from bullet import Bullet
-from alien import Alien
+from utilities.settings import Settings
+from utilities.ship import Ship
+from utilities.game_stats import GameStats
+from utilities.button import Button
+from utilities.scoreboard import Scoreboard
+from utilities.bullet import Bullet
+from utilities.alien import Alien
 
 
 class AlienInvasion:
@@ -25,21 +25,21 @@ class AlienInvasion:
         # Initialize game and create a screen object.
         pygame.init()
         # Initialize settings and screen object.
-        self.ai_settings = Settings()
-        self.screen = pygame.display.set_mode((self.ai_settings.screen_width, self.ai_settings.screen_height))
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
-        self.play_button = Button(self.ai_settings, self.screen, "Play")
+        self.play_button = Button(self.settings, self.screen, "Play")
 
         # create the Ship.
-        self.ship = Ship(self.ai_settings, self.screen)
+        self.ship = Ship(self.settings, self.screen)
         # Make a group to store the bullets.
         self.bullets = Group()
         self.aliens = Group()
         self.create_fleet()
 
         # Create a Game stats and scoreboard instance.
-        self.stats = GameStats(self.ai_settings)
-        self.sb = Scoreboard(self.ai_settings, self.screen, self.stats)
+        self.stats = GameStats(self.settings)
+        self.sb = Scoreboard(self.settings, self.screen, self.stats)
 
     def run_game(self):
         """
@@ -59,7 +59,7 @@ class AlienInvasion:
         """
         Determine the number of rows of aliens that fit on the screen.
         """
-        available_space_y = self.ai_settings.screen_height - 3*alien_height - ship_height
+        available_space_y = self.settings.screen_height - 3*alien_height - ship_height
         number_of_rows = int(available_space_y / (2*alien_height))
         return number_of_rows
 
@@ -67,7 +67,7 @@ class AlienInvasion:
         """
         Determine the number of aliens that fit in a row.
         """
-        available_space_x = self.ai_settings.screen_width - 2 * alien_width
+        available_space_x = self.settings.screen_width - 2 * alien_width
         number_of_aliens_x = int(available_space_x / (2 * alien_width))
         return number_of_aliens_x
 
@@ -75,7 +75,7 @@ class AlienInvasion:
         """
         Create one alien.
         """
-        alien = Alien(self.ai_settings, self.screen)
+        alien = Alien(self.settings, self.screen)
         alien_width = alien.rect.width
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
@@ -87,7 +87,7 @@ class AlienInvasion:
         Create a full fleet of aliens.
         """
         # Create one alien to check the size and the number.
-        alien = Alien(self.ai_settings, self.screen)
+        alien = Alien(self.settings, self.screen)
         number_of_aliens_x = self.get_number_of_aliens_x(alien.rect.width)
         number_of_rows = self.get_number_of_rows(self.ship.rect.height, alien.rect.height)
         # Create the fleet of the aliens.
@@ -184,14 +184,14 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if collisions:
             for aliens in collisions.values():
-                self.stats.score += self.ai_settings.alien_reward * len(aliens)
+                self.stats.score += self.settings.alien_reward * len(aliens)
             self.sb.prep_score()
             self.check_high_score()
 
         if len(self.aliens) == 0:
             # Destroy all bullets and create a new fleet.
             self.bullets.empty()
-            self.ai_settings.increase_speed()
+            self.settings.increase_speed()
             self.stats.level += 1
             self.sb.prep_level()
             self.create_fleet()
@@ -200,8 +200,8 @@ class AlienInvasion:
         """
         Fire a bullet if the limit is not yet reached.
         """
-        if len(self.bullets) < self.ai_settings.bullets_allowed and self.stats.game_active:
-            new_bullet = Bullet(self.ai_settings, self.screen, self.ship)
+        if len(self.bullets) < self.settings.bullets_allowed and self.stats.game_active:
+            new_bullet = Bullet(self.settings, self.screen, self.ship)
             self.bullets.add(new_bullet)
 
     def update_screen(self):
@@ -210,7 +210,7 @@ class AlienInvasion:
         """
 
         # Redraw the screen during each pass through the loop.
-        self.screen.fill(self.ai_settings.bg_color)
+        self.screen.fill(self.settings.bg_color)
         self.sb.show_score()
         if self.stats.game_active:
             # Redraw all bullets behind ship and aliens.
@@ -240,8 +240,8 @@ class AlienInvasion:
         Drop the entire fleet and change the fleet's direction.
         """
         for alien in self.aliens.sprites():
-            alien.rect.y += self.ai_settings.fleet_drop_speed
-        self.ai_settings.fleet_direction *= -1
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
     def update_aliens(self):
         """
@@ -296,13 +296,3 @@ class AlienInvasion:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.sb.prep_high_score()
-
-
-def main():
-    print("Running the game")
-    curr_game = AlienInvasion()
-    curr_game.run_game()
-
-
-if __name__ == "__main__":
-    main()

@@ -1,19 +1,20 @@
 import pygame.font
 from pygame.sprite import Group
-from ship import Ship
+from utilities.ship import Ship
+
 
 class Scoreboard:
     """
     A class to report the score.
     """
 
-    def __init__(self, ai_settings, screen, stats):
+    def __init__(self, settings, screen, stats):
         """
         Initialize score-keeping attributes.
         """
+        self.settings = settings
         self.screen = screen
         self.screen_rect = self.screen.get_rect()
-        self.ai_settings = ai_settings
         self.stats = stats
 
         # Font settings.
@@ -32,7 +33,7 @@ class Scoreboard:
         """
         rounded_score = int(round(self.stats.score, -1))
         score_str = "Score: {:,}".format(rounded_score)
-        self.score_image = self.font.render(score_str, True, self.text_color, self.ai_settings.bg_color)
+        self.score_image = self.font.render(score_str, True, self.text_color, self.settings.bg_color)
 
         # Display the score at the top right of the screen.
         self.score_rect = self.score_image.get_rect()
@@ -45,7 +46,7 @@ class Scoreboard:
         """
         rounded_score = int(round(self.stats.high_score, -1))
         high_score_str = "Highest Score: {:,}".format(rounded_score)
-        self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.ai_settings.bg_color)
+        self.high_score_image = self.font.render(high_score_str, True, self.text_color, self.settings.bg_color)
 
         # Display the score at the top center of the screen.
         self.high_score_rect = self.high_score_image.get_rect()
@@ -57,7 +58,7 @@ class Scoreboard:
         Turn the level into a rendered image.
         """
         level_str = "Level: {:,}".format(self.stats.level)
-        self.level_image = self.font.render(level_str, True, self.text_color, self.ai_settings.bg_color)
+        self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
 
         # Display the score at the top right of the screen.
         self.level_rect = self.level_image.get_rect()
@@ -70,7 +71,7 @@ class Scoreboard:
         """
         self.ships = Group()
         for ship_number in range(self.stats.ships_left):
-            ship = Ship(self.ai_settings, self.screen)
+            ship = Ship(self.settings, self.screen)
             ship.rect.x = 10 + ship_number*ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)

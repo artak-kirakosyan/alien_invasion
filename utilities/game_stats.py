@@ -3,11 +3,11 @@ class GameStats:
     Track statistics for Alien Invasion.
     """
 
-    def __init__(self, ai_settings):
+    def __init__(self, settings):
         """
         Initialize statistics.
         """
-        self.ai_settings = ai_settings
+        self.settings = settings
         self.reset_stats()
         self.game_active = False
         self.high_score = 0
@@ -16,7 +16,7 @@ class GameStats:
         """
         Initialize statistics that can change during the game.
         """
-        self.ships_left = self.ai_settings.ship_limit
-        self.ai_settings.initialize_dynamic_settings()
+        self.ships_left = self.settings.ship_limit
+        self.settings.initialize_dynamic_settings()
         self.score = 0
         self.level = 1

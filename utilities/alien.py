@@ -7,13 +7,13 @@ class Alien(Sprite):
     A class describing a single alien.
     """
 
-    def __init__(self, ai_settings, screen):
+    def __init__(self, settings, screen):
         """
         Initialize the alien and set its starting position.
         """
 
         super().__init__()
-        self.ai_settings = ai_settings
+        self.settings = settings
         self.screen = screen
 
         # Load the alien image and set its rect attribute.
@@ -31,7 +31,7 @@ class Alien(Sprite):
         """
         Move the alien right or left.
         """
-        self.x += self.ai_settings.alien_speed_factor*self.ai_settings.fleet_direction
+        self.x += self.settings.alien_speed_factor*self.settings.fleet_direction
         self.rect.x = self.x
 
     def blitme(self):

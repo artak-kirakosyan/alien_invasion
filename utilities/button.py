@@ -6,10 +6,11 @@ class Button:
     Class representing a button.
     """
 
-    def __init__(self, ai_settings, screen, message):
+    def __init__(self, settings, screen, message):
         """
         Initialize button attributes.
         """
+        self.settings = settings
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
