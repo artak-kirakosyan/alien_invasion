@@ -1,5 +1,6 @@
 import sys
 import pygame
+import configparser
 from time import sleep
 from pygame.sprite import Group
 
@@ -78,7 +79,7 @@ class AlienInvasion:
         """
         alien = Alien(self)
         alien_width = alien.rect.width
-        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.x = alien_width + 2*alien_width*alien_number
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2*alien.rect.height*row_number
         self.aliens.add(alien)
@@ -130,17 +131,18 @@ class AlienInvasion:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                self.check_play_button(mouse_x, mouse_y)
+                mouse_pos = pygame.mouse.get_pos()
+                self.check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self.check_key_down_events(event)
             elif event.type == pygame.KEYUP:
                 self.check_key_up_events(event)
 
-    def check_play_button(self, mouse_x, mouse_y):
+    def check_play_button(self, mouse_pos):
         """
         Start the new game if play was clicked.
         """
+        mouse_x, mouse_y = mouse_pos
         button_clicked = self.play_button.rect.collidepoint(mouse_x, mouse_y)
         if button_clicked:
             self.start_game()

@@ -15,13 +15,13 @@ class Button:
         self.screen_rect = ai_game.screen.get_rect()
 
         # Set the size and properties of the button.
-        self.width, self.height = (200, 50)
-        self.button_color = (0, 255, 0)
-        self.text_color = (255, 255, 255)
-        self.font = pygame.font.SysFont(None, 48)
+        self.width, self.height = self.settings.button_size
+        self.button_color = self.settings.button_color
+
+        self.text_color = self.settings.button_text_color
+        self.font = pygame.font.SysFont(None, self.settings.button_font_size)
 
         # Build buttons rect object and center it.
-
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.center = self.screen_rect.center
 

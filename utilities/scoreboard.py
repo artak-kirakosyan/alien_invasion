@@ -18,8 +18,9 @@ class Scoreboard:
         self.stats = ai_game.stats
 
         # Font settings.
-        self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.text_color = self.settings.scoreboard_text_color
+        self.font = pygame.font.SysFont(None, self.settings.scoreboard_font_size)
+
         self.score_image = None
         self.score_rect = None
         self.high_score_image = None

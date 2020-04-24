@@ -9,11 +9,11 @@ class GameStats:
         """
         self.settings = ai_game.settings
         self.game_active = False
-        self.high_score = 0
+        self.high_score = self.settings.high_score
 
-        self.ships_left = None
-        self.score = None
-        self.level = None
+        self.ships_left = self.settings.ship_limit
+        self.score = 0
+        self.level = 1
 
         self.reset_stats()
 
@@ -22,6 +22,6 @@ class GameStats:
         Initialize statistics that can change during the game.
         """
         self.ships_left = self.settings.ship_limit
-        self.settings.initialize_dynamic_settings()
+        self.settings.reset_dynamic_settings()
         self.score = 0
         self.level = 1
