@@ -28,6 +28,14 @@ class Settings:
         self.speedup_scale = 1.1
 
         self.score_scale = 1.5
+        self.ship_speed_factor = None
+        self.bullet_speed_factor = None
+        self.alien_speed_factor = None
+
+        # fleet direction of 1 represents right, -1 represents left.
+        self.fleet_direction = random.choice((-1, 1))
+        # Reward of killing one alien.
+        self.alien_reward = 50
 
         self.initialize_dynamic_settings()
 

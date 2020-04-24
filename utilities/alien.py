@@ -7,14 +7,14 @@ class Alien(Sprite):
     A class describing a single alien.
     """
 
-    def __init__(self, settings, screen):
+    def __init__(self, ai_game):
         """
         Initialize the alien and set its starting position.
         """
 
         super().__init__()
-        self.settings = settings
-        self.screen = screen
+        self.settings = ai_game.settings
+        self.screen = ai_game.screen
 
         # Load the alien image and set its rect attribute.
         self.image = pygame.image.load("images/alien.bmp")

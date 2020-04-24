@@ -28,7 +28,7 @@ class AlienInvasion:
         self.settings = Settings()
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
-        self.play_button = Button(self.settings, self.screen, "Play")
+        self.play_button = Button(self, "Play")
 
         # create the Ship.
         self.ship = Ship(self.settings, self.screen)
@@ -38,8 +38,9 @@ class AlienInvasion:
         self.create_fleet()
 
         # Create a Game stats and scoreboard instance.
-        self.stats = GameStats(self.settings)
-        self.sb = Scoreboard(self.settings, self.screen, self.stats)
+        self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
+        self.game_paused = True
 
     def run_game(self):
         """
@@ -49,7 +50,7 @@ class AlienInvasion:
         # Start the main loop for the game.
         while True:
             self.check_events()
-            if self.stats.game_active:
+            if self.stats.game_active and self.game_paused:
                 self.ship.update()
                 self.update_bullets()
                 self.update_aliens()
@@ -75,7 +76,7 @@ class AlienInvasion:
         """
         Create one alien.
         """
-        alien = Alien(self.settings, self.screen)
+        alien = Alien(self)
         alien_width = alien.rect.width
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
@@ -87,7 +88,7 @@ class AlienInvasion:
         Create a full fleet of aliens.
         """
         # Create one alien to check the size and the number.
-        alien = Alien(self.settings, self.screen)
+        alien = Alien(self)
         number_of_aliens_x = self.get_number_of_aliens_x(alien.rect.width)
         number_of_rows = self.get_number_of_rows(self.ship.rect.height, alien.rect.height)
         # Create the fleet of the aliens.
@@ -119,7 +120,7 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
         elif event.key == pygame.K_ESCAPE:
-            sys.exit()
+            self.game_paused = not self.game_paused
 
     def check_events(self):
         """
@@ -157,10 +158,7 @@ class AlienInvasion:
             self.aliens.empty()
             self.bullets.empty()
 
-            self.sb.prep_score()
-            self.sb.prep_high_score()
-            self.sb.prep_level()
-            self.sb.prep_ships()
+            self.sb.prep_all()
             # Create a new fleet and center the ship.
             self.create_fleet()
             self.ship.center_ship()
@@ -201,7 +199,7 @@ class AlienInvasion:
         Fire a bullet if the limit is not yet reached.
         """
         if len(self.bullets) < self.settings.bullets_allowed and self.stats.game_active:
-            new_bullet = Bullet(self.settings, self.screen, self.ship)
+            new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
     def update_screen(self):

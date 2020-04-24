@@ -3,14 +3,19 @@ class GameStats:
     Track statistics for Alien Invasion.
     """
 
-    def __init__(self, settings):
+    def __init__(self, ai_game):
         """
         Initialize statistics.
         """
-        self.settings = settings
-        self.reset_stats()
+        self.settings = ai_game.settings
         self.game_active = False
         self.high_score = 0
+
+        self.ships_left = None
+        self.score = None
+        self.level = None
+
+        self.reset_stats()
 
     def reset_stats(self):
         """

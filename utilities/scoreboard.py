@@ -8,19 +8,33 @@ class Scoreboard:
     A class to report the score.
     """
 
-    def __init__(self, settings, screen, stats):
+    def __init__(self, ai_game):
         """
         Initialize score-keeping attributes.
         """
-        self.settings = settings
-        self.screen = screen
+        self.settings = ai_game.settings
+        self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
-        self.stats = stats
+        self.stats = ai_game.stats
 
         # Font settings.
         self.text_color = (30, 30, 30)
         self.font = pygame.font.SysFont(None, 48)
+        self.score_image = None
+        self.score_rect = None
+        self.high_score_image = None
+        self.high_score_rect = None
+        self.level_image = None
+        self.level_rect = None
+        self.ships = None
 
+        # render all images to be displayed
+        self.prep_all()
+
+    def prep_all(self):
+        """
+        Prepare all rendered images
+        """
         # Prepare the initial score image.
         self.prep_score()
         self.prep_high_score()
