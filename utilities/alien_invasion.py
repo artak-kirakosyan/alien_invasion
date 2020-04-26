@@ -1,6 +1,5 @@
 import sys
 import pygame
-import configparser
 from time import sleep
 from pygame.sprite import Group
 
@@ -129,6 +128,7 @@ class AlienInvasion:
         """
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.settings.update_high_score(self)
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
